@@ -19,7 +19,16 @@ from urllib import request
 # resp = request.urlopen(req)
 #
 # print(resp.read().decode("utf-8"))
-print("---------------------------------fire line-----------------------------------")
+# print("---------------------------------fire line-----------------------------------")
+
+# test data
+# s/ref=sr_pg_2/135-8934197-1228839?fst=as%3Aon&rh=n%3A667823011%2Ck%3Aiphone&page=2&keywords=iphone&ie=UTF8&qid=1502631714&spIA=B072FQC5RR,B071F1BMRM,B019X7KM3A
+
+# real data
+# /s/ref=sr_pg_2?fst=as%3Aon&rh=n%3A667823011%2Ck%3Aiphone&page=2&keywords=iphone&ie=UTF8&qid=1502635386&spIA=B072FQC5RR,B07435M7FF,B071F1BMRM
+# /gp/search/ref=sr_pg_3?fst=as%3Aon&rh=n%3A667823011%2Ck%3Aiphone&page=3&keywords=iphone&ie=UTF8&qid=1502635488&spIA=B072FQC5RR,B07435M7FF,B071F1BMRM,B072VFHKH5,B071NSF8M3,B019X7KM3A
+# /gp/search/ref=sr_pg_4?fst=as%3Aon&rh=n%3A667823011%2Ck%3Aiphone&page=4&keywords=iphone&ie=UTF8&qid=1502635624&spIA=B072FQC5RR,B07435M7FF,B071F1BMRM,B072VFHKH5,B071NSF8M3,B019X7KM3A,B01N0ZTKJ0,B07282BVKY,B0731N7T7L
+# /gp/search/ref=sr_pg_5?fst=as%3Aon&rh=n%3A667823011%2Ck%3Aiphone&page=5&keywords=iphone&ie=UTF8&qid=1502635719&spIA=B072FQC5RR,B07435M7FF,B071F1BMRM,B072VFHKH5,B071NSF8M3,B019X7KM3A,B01N0ZTKJ0,B07282BVKY,B0731N7T7L,B06XNNY8X9,B072VD99RM,B0732QXFBZ
 
 req = request.Request("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + "iphone")
 req.add_header("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko")
@@ -31,4 +40,17 @@ req.add_header("Connection","keep-alive")
 req.add_header("Cache-Control","max-age=0")
 
 resp = request.urlopen(req)
-print(resp.read().decode('utf-8'))
+
+htmlContent = resp.read().decode('utf-8')
+
+# handle data
+index_start_string = htmlContent.find("/s/ref=sr_pg_2/")
+index_start = int(index_start_string)
+index_end_string = htmlContent.find("\"",index_start)
+index_end = int(index_end_string)
+print(index_start)
+print(index_end)
+print(index_end_string)
+print(index_end_string)
+pg2_url = htmlContent[index_start,index_end]
+print(pg2_url)
