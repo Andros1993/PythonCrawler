@@ -48,9 +48,8 @@ index_start_string = htmlContent.find("/s/ref=sr_pg_2/")
 index_start = int(index_start_string)
 index_end_string = htmlContent.find("\"",index_start)
 index_end = int(index_end_string)
-print(index_start)
-print(index_end)
-print(index_end_string)
-print(index_end_string)
-pg2_url = htmlContent[index_start,index_end]
-print(pg2_url)
+pg2_undecode_url = htmlContent[index_start:index_end]
+
+pg2_undecode_url.replace(pg2_undecode_url[index_start + 15:index_start + 35],"")
+
+print(pg2_undecode_url)
