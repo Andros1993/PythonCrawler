@@ -30,18 +30,34 @@ from urllib import request
 # /gp/search/ref=sr_pg_4?fst=as%3Aon&rh=n%3A667823011%2Ck%3Aiphone&page=4&keywords=iphone&ie=UTF8&qid=1502635624&spIA=B072FQC5RR,B07435M7FF,B071F1BMRM,B072VFHKH5,B071NSF8M3,B019X7KM3A,B01N0ZTKJ0,B07282BVKY,B0731N7T7L
 # /gp/search/ref=sr_pg_5?fst=as%3Aon&rh=n%3A667823011%2Ck%3Aiphone&page=5&keywords=iphone&ie=UTF8&qid=1502635719&spIA=B072FQC5RR,B07435M7FF,B071F1BMRM,B072VFHKH5,B071NSF8M3,B019X7KM3A,B01N0ZTKJ0,B07282BVKY,B0731N7T7L,B06XNNY8X9,B072VD99RM,B0732QXFBZ
 
-req = request.Request("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + "iphone")
-req.add_header("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko")
-req.add_header("Host","www.amazon.ca")
-req.add_header("Accept-Language","zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4")
-req.add_header("Host","www.amazon.ca")
-req.add_header("Upgrade-Insecure-Requests","1")
-req.add_header("Connection","keep-alive")
-req.add_header("Cache-Control","max-age=0")
+# req = request.Request("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + "iphone")
+# req.add_header("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko")
+# req.add_header("Host","www.amazon.ca")
+# req.add_header("Accept-Language","zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4")
+# req.add_header("Host","www.amazon.ca")
+# req.add_header("Upgrade-Insecure-Requests","1")
+# req.add_header("Connection","keep-alive")
+# req.add_header("Cache-Control","max-age=0")
+#
+# resp = request.urlopen(req)
+#
+# htmlContent = resp.read().decode('utf-8')
+def init_url(url):
+    req = request.Request(url)
+    req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko")
+    req.add_header("Host", "www.amazon.ca")
+    req.add_header("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4")
+    req.add_header("Host", "www.amazon.ca")
+    req.add_header("Upgrade-Insecure-Requests", "1")
+    req.add_header("Connection", "keep-alive")
+    req.add_header("Cache-Control", "max-age=0")
 
-resp = request.urlopen(req)
+    resp = request.urlopen(req)
+    htmlContentBuf = resp.read().decode('utf-8')
+    return htmlContentBuf;
 
-htmlContent = resp.read().decode('utf-8')
+
+htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + "iphone")
 
 # handle data
 index_start_string = htmlContent.find("/s/ref=sr_pg_2/")
@@ -50,6 +66,13 @@ index_end_string = htmlContent.find("\"",index_start)
 index_end = int(index_end_string)
 pg2_undecode_url = htmlContent[index_start:index_end]
 
-pg2_undecode_url.replace(pg2_undecode_url[index_start + 15:index_start + 35],"")
+pg2_undecode_url = pg2_undecode_url.replace(pg2_undecode_url[14 : 34],"")
 
+for i in range(5):
+    pg2_undecode_url = pg2_undecode_url.replace("&amp","")
+
+htmlcontent2 = init_url("https://www.amazon.ca" + pg2_undecode_url)
+
+print(htmlcontent2)
 print(pg2_undecode_url)
+
