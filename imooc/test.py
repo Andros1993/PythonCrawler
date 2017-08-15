@@ -57,7 +57,7 @@ def init_url(url):
     return htmlContentBuf;
 
 
-htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + "iphone")
+htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + "fm+transmitter")
 
 # handle data
 index_start_string = htmlContent.find("/s/ref=sr_pg_2/")
@@ -69,10 +69,13 @@ pg2_undecode_url = htmlContent[index_start:index_end]
 pg2_undecode_url = pg2_undecode_url.replace(pg2_undecode_url[14 : 34],"")
 
 for i in range(5):
-    pg2_undecode_url = pg2_undecode_url.replace("&amp","")
+    pg2_undecode_url = pg2_undecode_url.replace("&amp;","&")
 
 htmlcontent2 = init_url("https://www.amazon.ca" + pg2_undecode_url)
 
+getResult = htmlcontent2.find("Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
+
 print(htmlcontent2)
-print(pg2_undecode_url)
+if getResult != -1:
+    print("找到了，在第2页")
 
