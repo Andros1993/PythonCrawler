@@ -90,15 +90,14 @@ def init_url(url):
 #     print("找到了，在第2页")
 # print(pg2_undecode_url)
 
-htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + "fm+transmitter")
+# htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=" + "fm+transmitter")
+htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Delectronics&field-keywords=" + "fm+transmitter" + "&rh=n%3A667823011%2Ck%3A" + "fm+transmitter")
+getResult = htmlContent.find("Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
 
+if getResult != -1:
+    print("找到了，在第1页")
 # handle data
 for i in range(2,100):
-
-    getResult = htmlContent.find("Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
-
-    if getResult != -1:
-        print("找到了，在第2页")
 
     index_start_string = htmlContent.find("/s/ref=sr_pg_" + str(i) + "/")
     index_start = int(index_start_string)
@@ -113,7 +112,12 @@ for i in range(2,100):
 
     print(pg2_undecode_url)
     htmlContent = init_url("https://www.amazon.ca" + pg2_undecode_url)
-    time.sleep(3)
+    getResult = htmlContent.find(
+        "Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
+
+    if getResult != -1:
+        print("找到了，在第" + str(i) + "页")
+    # time.sleep(3)
 
 
 
