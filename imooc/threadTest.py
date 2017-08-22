@@ -96,21 +96,19 @@ getResult = htmlContent.find("Bluetooth FM Transmitter,[Newest Version]Etybetops
 
 if getResult != -1:
     print("找到了，在第1页")
-# handle data
+
+index_start_string = htmlContent.find("/s/ref=sr_pg_" + str(i) + "/")
+index_start = int(index_start_string)
+index_end_string = htmlContent.find("\"",index_start)
+index_end = int(index_end_string)
+pg2_undecode_url = htmlContent[index_start:index_end]
+pg2_undecode_url = pg2_undecode_url.replace(pg2_undecode_url[14 : 34],"")
+
+for i in range(5):
+    pg2_undecode_url = pg2_undecode_url.replace("&amp;","&")
+
 for i in range(2,100):
 
-    index_start_string = htmlContent.find("/s/ref=sr_pg_" + str(i) + "/")
-    index_start = int(index_start_string)
-    index_end_string = htmlContent.find("\"",index_start)
-    index_end = int(index_end_string)
-    pg2_undecode_url = htmlContent[index_start:index_end]
-
-    pg2_undecode_url = pg2_undecode_url.replace(pg2_undecode_url[14 : 34],"")
-
-    for i in range(5):
-        pg2_undecode_url = pg2_undecode_url.replace("&amp;","&")
-
-    print(pg2_undecode_url)
     htmlContent = init_url("https://www.amazon.ca" + pg2_undecode_url)
     getResult = htmlContent.find(
         "Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
