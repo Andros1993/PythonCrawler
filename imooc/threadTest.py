@@ -1,6 +1,7 @@
 # -*-coding:utf-8 -*-
 from urllib import request
 import time
+import _thread
 
 # # req = request.Request("https://www.amazon.ca/s/ref=sr_pg_2/138-4822442-6956431?fst=as%3Aon&amp;rh=n%3A667823011%2Ck%3Aiphone&amp;page=2&amp;keywords=iphone&amp;ie=UTF8&amp;qid=1502342373&amp;spIA=B072VHT174,B072JCTC8D,B072VGMCW1")
 # # req = request.Request("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=iphone")
@@ -65,7 +66,12 @@ def init_url(url):
     htmlContentBuf = resp.read().decode('utf-8')
     return htmlContentBuf;
 
-
+def searchKeyworld(nextUrl, page):
+    htmlContent = init_url(nextUrl)
+    getResult = htmlContent.find(
+        "Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
+    if getResult != -1:
+        print("找到了，在第" + str(page) + "页")
 # backup####################################################################################################
 # htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + "fm+transmitter")
 #
@@ -97,7 +103,7 @@ getResult = htmlContent.find("Bluetooth FM Transmitter,[Newest Version]Etybetops
 if getResult != -1:
     print("找到了，在第1页")
 
-index_start_string = htmlContent.find("/s/ref=sr_pg_" + str(i) + "/")
+index_start_string = htmlContent.find("/s/ref=sr_pg_2/")
 index_start = int(index_start_string)
 index_end_string = htmlContent.find("\"",index_start)
 index_end = int(index_end_string)
@@ -107,11 +113,11 @@ pg2_undecode_url = pg2_undecode_url.replace(pg2_undecode_url[14 : 34],"")
 for i in range(5):
     pg2_undecode_url = pg2_undecode_url.replace("&amp;","&")
 
-for i in range(2,100):
+for i in range(3,100):
 
-    htmlContent = init_url("https://www.amazon.ca" + pg2_undecode_url)
-    getResult = htmlContent.find(
-        "Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
-
-    if getResult != -1:
-        print("找到了，在第" + str(i) + "页")
+    nextUrl = pg2_undecode_url.replace("/s/ref=sr_pg_2/", "/s/ref=sr_pg_" + str(i) + "/")
+    print(nextUrl)
+    try:
+        _thread.start_new_thread(searchKeyworld, (nextUrl, 2, i,))
+    except:
+        print("Error: 无法启动线程")
