@@ -69,9 +69,15 @@ def init_url(url):
 def searchKeyworld(nextUrl, page):
     htmlContent = init_url(nextUrl)
     getResult = htmlContent.find(
-        "Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
+        "Perbeat BT66 Wireless Bluetooth FM Transmitter Hands free Car Kit Radio Adapter MP3 Player Dual USB Car Charger support Micro SD Card USB Flash Disk for Smart phone, iPhone, iPad,etc (Blue)")
+        #"Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
     if getResult != -1:
         print("找到了，在第" + str(page) + "页")
+    else:
+        print("在第" + str(page) + "没有找到")
+
+    # if page == 10 :
+    #     print(htmlContent)
 # backup####################################################################################################
 # htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + "fm+transmitter")
 #
@@ -98,7 +104,7 @@ def searchKeyworld(nextUrl, page):
 
 # htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=" + "fm+transmitter")
 htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Delectronics&field-keywords=" + "fm+transmitter" + "&rh=n%3A667823011%2Ck%3A" + "fm+transmitter")
-getResult = htmlContent.find("Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
+getResult = htmlContent.find("Perbeat BT66 Wireless Bluetooth FM Transmitter Hands free Car Kit Radio Adapter MP3 Player Dual USB Car Charger support Micro SD Card USB Flash Disk for Smart phone, iPhone, iPad,etc (Blue)")#"Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
 
 if getResult != -1:
     print("找到了，在第1页")
@@ -113,11 +119,12 @@ pg2_undecode_url = pg2_undecode_url.replace(pg2_undecode_url[14 : 34],"")
 for i in range(5):
     pg2_undecode_url = pg2_undecode_url.replace("&amp;","&")
 
-for i in range(3,100):
+for i in range(3,50):
 
-    nextUrl = pg2_undecode_url.replace("/s/ref=sr_pg_2/", "/s/ref=sr_pg_" + str(i) + "/")
-    print(nextUrl)
+    nextUrl = "https://www.amazon.ca" + pg2_undecode_url.replace("/s/ref=sr_pg_2", "/s/ref=sr_pg_" + str(i))
+    nextUrl = nextUrl.replace("page=2", "page=" + str(i))
     try:
-        _thread.start_new_thread(searchKeyworld, (nextUrl, 2, i,))
+        _thread.start_new_thread(searchKeyworld, (nextUrl, i,))
     except:
         print("Error: 无法启动线程")
+    time.sleep(0.5)
