@@ -70,7 +70,7 @@ def init_url(url):
 def searchKeyworld(nextUrl, page):
     htmlContent = init_url(nextUrl)
     soup = bs(htmlContent, "html.parser")
-
+    # print(len(soup.find_all(class_ = "s-result-item  celwidget ")))
     for text in soup.find_all('li'):
         asin = text.get('data-asin')
         if asin == 'B072KCY51R':
@@ -81,6 +81,8 @@ def searchKeyworld(nextUrl, page):
             else:
                 position = int(id) % 3
             print("找到了，在第" + str(page) + "页，" + "，第" + str((int(id)/3) + 1) + "行" + ",第" + str(position) + "个")
+            print(text)
+            print(str(id))
     # getResult = htmlContent.find(
     #     "Perbeat BT66 Wireless Bluetooth FM Transmitter Hands free Car Kit Radio Adapter MP3 Player Dual USB Car Charger support Micro SD Card USB Flash Disk for Smart phone, iPhone, iPad,etc (Blue)")
     #     #"Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
