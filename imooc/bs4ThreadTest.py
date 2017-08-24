@@ -73,15 +73,19 @@ def searchKeyworld(nextUrl, page):
     # print(len(soup.find_all(class_ = "s-result-item  celwidget ")))
     for text in soup.find_all('li'):
         asin = text.get('data-asin')
+        # print(text)
         if asin == 'B072KCY51R':
             id = text.get('id')
-            id = str(id).replace("result_","")
+            id = str(id).replace("result_", "")
             if int(id) % 3 == 0:
                 position = 3
             else:
                 position = int(id) % 3
-            print("找到了，在第" + str(page) + "页，" + "，第" + str((int(id)/3) + 1) + "行" + ",第" + str(position) + "个")
-            print(text)
+            print("找到了，在第" + str(page) + "页，" + "，第" + str((int(id) - (24*(page - 1) + 1)/3) + 1) + "行" + ",第" + str(position) + "个")
+            print(str((int(id) - (24*(page - 1) + 1)/3)))
+            print(str(int(id) - (24*(page - 1) + 1)))
+            print(str(int(id) - 24*(page - 1)))
+            print(str(24*(page - 1)))
             print(str(id))
     # getResult = htmlContent.find(
     #     "Perbeat BT66 Wireless Bluetooth FM Transmitter Hands free Car Kit Radio Adapter MP3 Player Dual USB Car Charger support Micro SD Card USB Flash Disk for Smart phone, iPhone, iPad,etc (Blue)")
@@ -142,4 +146,4 @@ for i in range(3,50):
         _thread.start_new_thread(searchKeyworld, (nextUrl, i,))
     except:
         print("Error: 无法启动线程")
-    time.sleep(0.5)
+    time.sleep(0.8)
