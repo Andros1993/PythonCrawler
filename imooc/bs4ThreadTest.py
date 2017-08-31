@@ -3,6 +3,7 @@ from urllib import request
 import time
 import _thread
 from bs4 import BeautifulSoup as bs
+import re
 
 def init_url(url):
     req = request.Request(url)
@@ -20,8 +21,10 @@ def init_url(url):
 
 def searchKeyworld(nextUrl, page):
     htmlContent = init_url(nextUrl)
+
     soup = bs(htmlContent, "html.parser")
-    li_list = soup.find_all('li', attrs={'class': 's-result-item  celwidget '})
+    # li_list = soup.find_all('li', attrs={'class': 's-result-item  celwidget '})
+    li_list = soup.find_all('li', attrs={'id':re.compile('result_')})
     print("li_list : " + str(len(li_list)))
     for text in li_list:
         asin = text.get('data-asin')
@@ -65,4 +68,4 @@ for i in range(2,10):
         _thread.start_new_thread(searchKeyworld, (nextUrl, i,))
     except:
         print("Error: 无法启动线程")
-    time.sleep(0.8)
+    time.sleep(1)
