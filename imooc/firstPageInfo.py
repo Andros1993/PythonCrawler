@@ -33,17 +33,19 @@ def get_first_page_all_list(htmlContent):
     count = 0;
     new_li_list = []
     while count < len(li_list):
-        if li_list[count].find("a-spacing-none a-color-tertiary s-sponsored-list-header a-text-normal") is None:
+        if str(li_list[count]).find("Sponsored") == -1:
             new_li_list.append(li_list[count])
         count = count + 1
     # for lin_text in li_list:
     #     print(lin_text)
     #     if lin_text.find("a-spacing-none a-color-tertiary s-sponsored-list-header a-text-normal") != -1:
     #         li_list.remove(lin_text)
-    print(len(new_li_list))
     #处理所有有效的链接
-    # for lin_text in li_list:
-    #     lin_text.div
+    # for lin_text in new_li_list:
+    #     lin_text.find_all(attrs={'class': 'a-size-base s-inline  s-access-title  a-text-normal'})
+    # 获取指定属性内容
+    new_li_list[0].find_all(attrs={'class': 'a-size-medium s-inline s-access-title a-text-normal'})[0].attrs['data-attribute']
+    print(new_li_list[0].find_all(attrs={'class': 'a-size-medium s-inline s-access-title a-text-normal'})[0].attrs['data-attribute'])
 
     # lin_text = li_list[0]
     # img_text = lin_text.find_all('h2')
