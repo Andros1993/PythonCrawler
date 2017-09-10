@@ -27,7 +27,13 @@ def get_rul_conten(url):
 def get_first_page_all_list(htmlContent):
     soup = bs(htmlContent, "html.parser")
     li_list = soup.find_all('li', attrs={'id': re.compile('result_')})
-    print(len(li_list))
+    # 新建一个excel文件
+    file = xlwt.Workbook()
+    # 新建一个sheet
+    table = file.add_sheet('info', cell_overwrite_ok=True)
+    # 写入数据table.write(行,列,value)
+    # table.write(0, 0, 'wangpeng')
+
 
     # 删除所有广告链接
     count = 0;
@@ -40,17 +46,30 @@ def get_first_page_all_list(htmlContent):
     #     print(lin_text)
     #     if lin_text.find("a-spacing-none a-color-tertiary s-sponsored-list-header a-text-normal") != -1:
     #         li_list.remove(lin_text)
-    #处理所有有效的链接
+    # 处理所有有效的链接----------------------------
+
+    # # 获取链接的title
     # for lin_text in new_li_list:
-    #     lin_text.find_all(attrs={'class': 'a-size-base s-inline  s-access-title  a-text-normal'})
-    # 获取指定属性内容
-    new_li_list[0].find_all(attrs={'class': 'a-size-medium s-inline s-access-title a-text-normal'})[0].attrs['data-attribute']
-    print(new_li_list[0].find_all(attrs={'class': 'a-size-medium s-inline s-access-title a-text-normal'})[0].attrs['data-attribute'])
+    #     title = lin_text.find_all(attrs={'class': 'a-size-medium s-inline s-access-title a-text-normal'})[0].attrs['data-attribute']
+    #     table.write(new_li_list.index(lin_text), 0, title)
+    #
+    # # 获取链接的品牌
+    # for lin_text in new_li_list:
+    #     brand = lin_text.find_all(attrs={'class': 'a-row a-spacing-small'})[0].find_all(attrs={'class': 'a-row a-spacing-none'})[0].find_all(attrs={'class': 'a-size-small a-color-secondary'})[1].string
+    #     table.write(new_li_list.index(lin_text), 1, brand)
 
-    # lin_text = li_list[0]
-    # img_text = lin_text.find_all('h2')
-    # print("text : " + str(img_text))
+    # 获取价格
+    for lin_text in new_li_list:
+        large_price = lin_text.find_all(attrs={'class': 'sx-price sx-price-large'})
+        print(large_price)
+        # if len(large_price) == 0:
+        #     print("自发货价格：" + lin_text.find_all(attrs={'class': 'a-size-base a-color-base'})[0].string)
+        # else:
+        #     # large_price[0].find("span").string + '.' + large_price[0].find_all("sup")[1].string
+        #     print(large_price[0].find("span").string + '.' + large_price[0].find_all("sup")[1].string)
 
+    # 保存文件
+    file.save('file.xls')
 
 base_url = "https://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=knee+brace"
 htmlContent = get_rul_conten(base_url)
