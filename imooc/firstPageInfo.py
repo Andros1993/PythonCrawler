@@ -48,25 +48,64 @@ def get_first_page_all_list(htmlContent):
     #         li_list.remove(lin_text)
     # 处理所有有效的链接----------------------------
 
-    # 获取链接的title
-    for lin_text in new_li_list:
-        title = lin_text.find_all(attrs={'class': 'a-size-medium s-inline s-access-title a-text-normal'})[0].attrs['data-attribute']
-        table.write(new_li_list.index(lin_text), 0, title)
+    # # 获取链接的title
+    # for lin_text in new_li_list:
+    #     print('title:' + str(new_li_list.index(lin_text)))
+    #     title = lin_text.find_all(attrs={'class': 'a-size-medium s-inline s-access-title a-text-normal'})[0].attrs['data-attribute']
+    #     table.write(new_li_list.index(lin_text), 0, title)
+    #
+    # # 获取链接的品牌
+    # for lin_text in new_li_list:
+    #     brand = lin_text.find_all(attrs={'class': 'a-row a-spacing-small'})[0].find_all(attrs={'class': 'a-row a-spacing-none'})[0].find_all(attrs={'class': 'a-size-small a-color-secondary'})[1].string
+    #     table.write(new_li_list.index(lin_text), 1, brand)
+    #
+    # # 获取价格
+    # for lin_text in new_li_list:
+    #     large_price = lin_text.find_all(attrs={'class': 'sx-price sx-price-large'})
+    #     print('price:' + str(new_li_list.index(lin_text)))
+    #     if len(large_price) == 0:
+    #         price = "自发货价格：" + lin_text.find_all(attrs={'class': 'a-size-base a-color-base'})[0].string
+    #         table.write(new_li_list.index(lin_text), 2, price)
+    #     else:
+    #         price = large_price[0].find("span").string + '.' + large_price[0].find_all("sup")[1].string
+    #         table.write(new_li_list.index(lin_text), 2, price)
+    #
+    # # 获取reiew数量
+    # for lin_text in new_li_list:
+    #     review = lin_text.find_all(attrs={'class': 'a-column a-span5 a-span-last'})[0].find_all(attrs={'class': 'a-size-small a-link-normal a-text-normal'})[0].string
+    #     table.write(new_li_list.index(lin_text), 3, review)
 
-    # 获取链接的品牌
-    for lin_text in new_li_list:
-        brand = lin_text.find_all(attrs={'class': 'a-row a-spacing-small'})[0].find_all(attrs={'class': 'a-row a-spacing-none'})[0].find_all(attrs={'class': 'a-size-small a-color-secondary'})[1].string
-        table.write(new_li_list.index(lin_text), 1, brand)
+    # # 获取review等级
+    # for lin_text in new_li_list:
+    #     review_level = lin_text.find_all(attrs={'class': 'a-popover-trigger a-declarative'})[0].find_all(attrs={'class': 'a-icon-alt'})[0].string[0:3]
+    #     if review_level.find('o') == -1:
+    #         table.write(new_li_list.index(lin_text), 4, review_level)
+    #     else:
+    #         table.write(new_li_list.index(lin_text), 4, review_level[0:1] + '.0')
 
-    # 获取价格
+    # 获取上架时间
     for lin_text in new_li_list:
-        large_price = lin_text.find_all(attrs={'class': 'sx-price sx-price-large'})
-        if len(large_price) == 0:
-            price = "自发货价格：" + lin_text.find_all(attrs={'class': 'a-size-base a-color-base'})[0].string
-            table.write(new_li_list.index(lin_text), 2, price)
-        else:
-            price = large_price[0].find("span").string + '.' + large_price[0].find_all("sup")[1].string
-            table.write(new_li_list.index(lin_text), 2, price)
+        time.sleep(5)
+        # 进入review界面
+        detail_href = lin_text.find_all(attrs={'class': 'a-link-normal s-access-detail-page s-color-twister-title-link a-text-normal'})[0].attrs['href']
+        detail_html_content = get_rul_conten(detail_href)
+        detail_soup = bs(detail_html_content, "html.parser")
+        # 进入所有review界面
+        see_all_href = 'https://www.amazon.com' + detail_soup.find_all(attrs={'class': 'a-link-emphasis a-text-bold'})[0].attrs['href']
+        print(see_all_href)
+        see_all_html_content = get_rul_conten(see_all_href)
+        see_all_soup = bs(see_all_html_content, "html.parser")
+        page_list = see_all_soup.find_all(attrs={'class': 'a-text-center celwidget a-text-base'})[0].find_all(attrs={'class': 'page-button'})
+        print(page_list.string)
+        # 进入最后一页review界面
+        last_page_href = 'https://www.amazon.com' + page_list[len(page_list) - 1].attrs['href']
+        print(last_page_href)
+        last_page_html_content = get_rul_conten(last_page_href)
+        last_page_soup = bs(last_page_html_content, "html.parser")
+        last_page_review_list = last_page_soup.find_all(attrs={'class': 'cm_cr-review_list'})[0].find_all(attrs={'class': 'a-section review'})
+        last_page_review_list[len(last_page_review_list) - 1].find_all(attrs={'class': 'a-size-base a-color-secondary review-date'}).string
+        print(last_page_review_list[len(last_page_review_list) - 1].find_all(attrs={'class': 'a-size-base a-color-secondary review-date'}).string)
+
 
     # 保存文件
     file.save('file.xls')
