@@ -50,18 +50,21 @@ def get_first_page_all_list(htmlContent):
     # 处理所有有效的链接----------------------------
     # 获取链接的title
     for lin_text in new_li_list:
+        time.sleep(0.05)
         print('title:' + str(new_li_list.index(lin_text)))
         title = lin_text.find_all(attrs={'class': 'a-size-medium s-inline s-access-title a-text-normal'})[0].attrs['data-attribute']
         table.write(new_li_list.index(lin_text), 0, title)
 
     # 获取链接的品牌
     for lin_text in new_li_list:
+        time.sleep(0.05)
         print('brand：' + str(new_li_list.index(lin_text)))
         brand = lin_text.find_all(attrs={'class': 'a-row a-spacing-small'})[0].find_all(attrs={'class': 'a-row a-spacing-none'})[0].find_all(attrs={'class': 'a-size-small a-color-secondary'})[1].string
         table.write(new_li_list.index(lin_text), 1, brand)
 
     # 获取价格
     for lin_text in new_li_list:
+        time.sleep(0.05)
         print('price:' + str(new_li_list.index(lin_text)))
         large_price = lin_text.find_all(attrs={'class': 'sx-price sx-price-large'})
         if len(large_price) == 0:
@@ -73,12 +76,14 @@ def get_first_page_all_list(htmlContent):
 
     # 获取reiew数量
     for lin_text in new_li_list:
+        time.sleep(0.05)
         print('review:' + str(new_li_list.index(lin_text)))
         review = lin_text.find_all(attrs={'class': 'a-column a-span5 a-span-last'})[0].find_all(attrs={'class': 'a-size-small a-link-normal a-text-normal'})[0].string
         table.write(new_li_list.index(lin_text), 3, review)
 
     # 获取review等级
     for lin_text in new_li_list:
+        time.sleep(0.05)
         print('review_level:' + str(new_li_list.index(lin_text)))
         review_level = lin_text.find_all(attrs={'class': 'a-popover-trigger a-declarative'})[0].find_all(attrs={'class': 'a-icon-alt'})[0].string[0:3]
         if review_level.find('o') == -1:
@@ -88,6 +93,7 @@ def get_first_page_all_list(htmlContent):
 
     # 获取上架时间
     for lin_text in new_li_list:
+        time.sleep(0.05)
         print('upload_date:' + str(new_li_list.index(lin_text)))
         # 进入review界面
         detail_href = lin_text.find_all(attrs={'class': 'a-link-normal s-access-detail-page s-color-twister-title-link a-text-normal'})[0].attrs['href']
