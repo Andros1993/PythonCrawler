@@ -67,8 +67,8 @@ def get_first_page_all_list(htmlContent):
         time.sleep(0.05)
         print('price:' + str(new_li_list.index(lin_text)))
         large_price = lin_text.find_all(attrs={'class': 'sx-price sx-price-large'})
-        if len(large_price) == 0:
-            price = "自发货价格：" + lin_text.find_all(attrs={'class': 'a-size-base a-color-base'})[0].string
+        if lin_text.find('Prime') != -1:
+            price = "自发货价格：" + large_price[0].find("span").string + '.' + large_price[0].find_all("sup")[1].string
             table.write(new_li_list.index(lin_text), 2, price)
         else:
             price = large_price[0].find("span").string + '.' + large_price[0].find_all("sup")[1].string
