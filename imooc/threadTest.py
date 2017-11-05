@@ -104,8 +104,9 @@ def searchKeyworld(nextUrl, page):
 # print(pg2_undecode_url)
 
 # htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=" + "fm+transmitter")
-htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Delectronics&field-keywords=" + "fm+transmitter" + "&rh=n%3A667823011%2Ck%3A" + "fm+transmitter")
-getResult = htmlContent.find("Perbeat BT66 Wireless Bluetooth FM Transmitter Hands free Car Kit Radio Adapter MP3 Player Dual USB Car Charger support Micro SD Card USB Flash Disk for Smart phone, iPhone, iPad,etc (Blue)")#"Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
+htmlContent = init_url("https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Delectronics&field-keywords=" + "Car+Phone+Mount" + "&rh=n%3A667823011%2Ck%3A" + "Car+Phone+Mount")
+# getResult = htmlContent.find("Perbeat BT66 Wireless Bluetooth FM Transmitter Hands free Car Kit Radio Adapter MP3 Player Dual USB Car Charger support Micro SD Card USB Flash Disk for Smart phone, iPhone, iPad,etc (Blue)")#"Bluetooth FM Transmitter,[Newest Version]Etybetopstar T11 Car Transmitter Radio Adapter Car Kit with 4 Music Play Mode/Hands-Free Calling/1.44 Inch Screen Display/USB Car Charger/Support TF Card/U Disk/AUX Input for Mobile Audio Devices,Black")
+getResult = htmlContent.find("Phone Holder/Car Holder[Newest]Etybetopstar Car Phone Mount Adjustable Cell Phone Car Mount with 360° Rotation One Hand Operation Extension 2.0 to 4.7inch for Iphone7/7 Plus/6S/6S Plus/Android Smartphone-Black")
 
 if getResult != -1:
     print("找到了，在第1页")
@@ -120,7 +121,7 @@ pg2_undecode_url = pg2_undecode_url.replace(pg2_undecode_url[14 : 34],"")
 for i in range(5):
     pg2_undecode_url = pg2_undecode_url.replace("&amp;","&")
 
-for i in range(3,50):
+for i in range(3,100):
 
     nextUrl = "https://www.amazon.ca" + pg2_undecode_url.replace("/s/ref=sr_pg_2", "/s/ref=sr_pg_" + str(i))
     nextUrl = nextUrl.replace("page=2", "page=" + str(i))
