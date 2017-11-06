@@ -21,4 +21,6 @@ def init_url(url):
 
 
 htmlContent = init_url("https://baidu.com")
+# chrome 抓取的百度访问链接
+# https://www.baidu.com/s?wd=注册&rsv_spt=1&rsv_iqid=0x901d428300023f55&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&rqlang=cn&tn=baiduhome_pg&rsv_enter=0&oq=%25E6%25B3%25A8%25E5%2586%258C&rsv_t=4dcckzUHOeaJ5jElK7QQxLYFT4GXAPxLQxvSaB2YGIwA0bM27EiTnqK%2BmX6e59OgqmLk&rsv_pq=b1e81d7800028610&rsv_sug=1
 print(htmlContent)
