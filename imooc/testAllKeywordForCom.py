@@ -72,7 +72,7 @@ def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
             else:
                 if key_world_able_list[key_world_inde] <= 0 :
                     break
-                print(key_world + "广告在第" + str(page) + "页" + "，第" + str(position) + "行")
+                # print(key_world + "广告在第" + str(page) + "页" + "，第" + str(position) + "行")
                 # key_world_able_list[key_world_inde] -= 1;
                 break
 
@@ -109,5 +109,5 @@ for key_world_str in key_world_list:
             _thread.start_new_thread(searchKeyworld, (nextUrl, i, key_world_str, current_world_inde,))
         except:
             print("Error: 无法启动线程")
-        time.sleep(1)
-    time.sleep(1)
+        time.sleep(4)
+    time.sleep(4)
