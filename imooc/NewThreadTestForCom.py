@@ -2,6 +2,7 @@
 from urllib import request
 import time
 import _thread
+import threading
 from bs4 import BeautifulSoup as bs
 import re
 
@@ -61,12 +62,7 @@ def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
         asin = text.get('data-asin')
         if asin == 'B07714MKPB': # 护膝
             position = li_list.index(text) + 1
-            # if position % 3 == 0:
-            #     row_position = int(position / 3)
-            #     list_position = 3
-            # else:
-            #     row_position = int(position / 3) + 1
-            #     list_position = position % 3
+            print("found")
             if len(text.find_all(attrs={'class': "a-spacing-none a-color-tertiary s-sponsored-list-header s-sponsored-header sp-pixel-data a-text-normal"})) <= 0:
                 # if len(text.find_all(attrs={'class' : 'a-declarative'})) <= 0:
                 print(key_world + "搜索排名在第" + str(page) + "页" + "，第" + str(position) + "行")
@@ -75,13 +71,11 @@ def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
             else:
                 if key_world_able_list[key_world_inde] <= 0 :
                     break
-                # print(key_world + "广告在第" + str(page) + "页" + "，第" + str(position) + "行")
+                print(key_world + "广告在第" + str(page) + "页" + "，第" + str(position) + "行")
                 # key_world_able_list[key_world_inde] -= 1;
                 break
 
-
-for key_world_str in key_world_list:
-
+def createNewUrl(key_world_str):
     print("正在搜索关键词：" + key_world_str)
     current_world_inde = key_world_list.index(key_world_str);
     # print(str(current_world_inde) + " : " + key_world_str)
@@ -89,7 +83,8 @@ for key_world_str in key_world_list:
     base_url = "https://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Dsporting&field-keywords=" + key_world_str
     htmlContent = init_url(base_url)
 
-    _thread.start_new_thread(searchKeyworld, (base_url, 1, key_world_str, current_world_inde))
+    # _thread.start_new_thread(searchKeyworld, (base_url, 1, key_world_str, current_world_inde))
+    threading.Thread(target=searchKeyworld, args=(base_url, 1, key_world_str, current_world_inde)).start()
 
     index_start_string = htmlContent.find("/s/ref=sr_pg_2/")
     index_start = int(index_start_string)
@@ -103,14 +98,21 @@ for key_world_str in key_world_list:
 
     for i in range(2, 400):
         # if the value is 0,then mean it fond 2 place of the key world, so dont need to do next anymore
-        if key_world_able_list[current_world_inde] <= 0 :
+        if key_world_able_list[current_world_inde] <= 0:
             break
         nextUrl = "https://www.amazon.com" + pg2_undecode_url.replace("/s/ref=sr_pg_2", "/s/ref=sr_pg_" + str(i))
         nextUrl = nextUrl.replace("page=2", "page=" + str(i))
         # print(nextUrl)
-        try:
-            _thread.start_new_thread(searchKeyworld, (nextUrl, i, key_world_str, current_world_inde,))
-        except:
-            print("Error: 无法启动线程")
-        time.sleep(4)
-    time.sleep(4)
+        # try:
+            # _thread.start_new_thread(searchKeyworld, (nextUrl, i, key_world_str, current_world_inde,))
+        threading.Thread(target=searchKeyworld, args=(nextUrl, i, key_world_str, current_world_inde,)).start()
+        # except:
+        #     print("Error: 无法启动线程")
+        # searchKeyworld(nextUrl, i, key_world_str, current_world_inde,)
+        # print("正在搜索关键字：" + key_world_str + "  链接：" + nextUrl)
+        time.sleep(2)
+
+for key_world_str in key_world_list:
+    threading.Thread(target=createNewUrl, args=(key_world_str,)).start()
+    time.sleep(2)
+
