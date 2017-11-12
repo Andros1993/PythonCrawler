@@ -8,12 +8,12 @@ import re
 
 key_world_list = [
     "knee brace",
-# "knee support",
-# "knee sleeve",
-# "knee compression sleeve",
-# "knee",
-# "knee compression",
-# "compression knee brace",
+"knee support",
+"knee sleeve",
+"knee compression sleeve",
+"knee",
+"knee compression",
+"compression knee brace",
 
 ];
 key_world_able_list = [
@@ -50,8 +50,10 @@ def init_url(url):
 def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
     htmlContent = init_url(nextUrl)
 
-    if page == 3:
-        print(htmlContent)
+    # if page == 23:
+    #     print(htmlContent)
+
+    print("正在搜索：" + str(page) + " 页")
 
     soup = bs(htmlContent, "html.parser")
     # li_list = soup.find_all('li', attrs={'class': 's-result-item  celwidget '})
@@ -59,7 +61,7 @@ def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
     # print("li_list len: " + str(len(li_list)))
     for text in li_list:
         asin = text.get('data-asin')
-        if asin == 'B07714MKPB': # 护膝
+        if asin == 'B0771D5SSD': # 护膝
             position = li_list.index(text) + 1
             # if position % 3 == 0:
             #     row_position = int(position / 3)
@@ -70,13 +72,13 @@ def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
             if len(text.find_all(attrs={'class': "a-spacing-none a-color-tertiary s-sponsored-list-header s-sponsored-header sp-pixel-data a-text-normal"})) <= 0:
                 # if len(text.find_all(attrs={'class' : 'a-declarative'})) <= 0:
                 print(key_world + "搜索排名在第" + str(page) + "页" + "，第" + str(position) + "行")
-                key_world_able_list[key_world_inde] -= 1;
+                key_world_able_list[key_world_inde] -= 2;
                 break
             else:
                 if key_world_able_list[key_world_inde] <= 0 :
                     break
-                # print(key_world + "广告在第" + str(page) + "页" + "，第" + str(position) + "行")
-                # key_world_able_list[key_world_inde] -= 1;
+                print(key_world + "广告在第" + str(page) + "页" + "，第" + str(position) + "行")
+                key_world_able_list[key_world_inde] -= 1;
                 break
 
 
@@ -102,6 +104,7 @@ for key_world_str in key_world_list:
         pg2_undecode_url = pg2_undecode_url.replace("&amp;", "&")
 
     for i in range(2, 400):
+        time.sleep(2)
         # if the value is 0,then mean it fond 2 place of the key world, so dont need to do next anymore
         if key_world_able_list[current_world_inde] <= 0 :
             break
@@ -112,5 +115,5 @@ for key_world_str in key_world_list:
             _thread.start_new_thread(searchKeyworld, (nextUrl, i, key_world_str, current_world_inde,))
         except:
             print("Error: 无法启动线程")
-        time.sleep(4)
-    time.sleep(4)
+
+    time.sleep(2)
