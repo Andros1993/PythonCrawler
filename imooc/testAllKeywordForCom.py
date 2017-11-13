@@ -53,7 +53,7 @@ def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
     # if page == 23:
     #     print(htmlContent)
 
-    print("正在搜索：" + str(page) + " 页")
+    # print("正在搜索：" + str(page) + " 页")
 
     soup = bs(htmlContent, "html.parser")
     # li_list = soup.find_all('li', attrs={'class': 's-result-item  celwidget '})
@@ -63,16 +63,10 @@ def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
         asin = text.get('data-asin')
         if asin == 'B0771D5SSD': # 护膝
             position = li_list.index(text) + 1
-            # if position % 3 == 0:
-            #     row_position = int(position / 3)
-            #     list_position = 3
-            # else:
-            #     row_position = int(position / 3) + 1
-            #     list_position = position % 3
             if len(text.find_all(attrs={'class': "a-spacing-none a-color-tertiary s-sponsored-list-header s-sponsored-header sp-pixel-data a-text-normal"})) <= 0:
                 # if len(text.find_all(attrs={'class' : 'a-declarative'})) <= 0:
                 print(key_world + "搜索排名在第" + str(page) + "页" + "，第" + str(position) + "行")
-                key_world_able_list[key_world_inde] -= 2;
+                key_world_able_list[key_world_inde] = 0;
                 break
             else:
                 if key_world_able_list[key_world_inde] <= 0 :
@@ -104,7 +98,7 @@ for key_world_str in key_world_list:
         pg2_undecode_url = pg2_undecode_url.replace("&amp;", "&")
 
     for i in range(2, 400):
-        time.sleep(2)
+        time.sleep(1)
         # if the value is 0,then mean it fond 2 place of the key world, so dont need to do next anymore
         if key_world_able_list[current_world_inde] <= 0 :
             break
@@ -116,4 +110,4 @@ for key_world_str in key_world_list:
         except:
             print("Error: 无法启动线程")
 
-    time.sleep(2)
+    time.sleep(1)
