@@ -42,7 +42,7 @@ key_world_able_list = [
 
 def init_url(url):
     req = request.Request(url)
-    req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
+    req.add_header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko")
     req.add_header("Host", "www.amazon.com")
     req.add_header("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4")
     req.add_header("Host", "www.amazon.com")
@@ -58,8 +58,8 @@ def init_url(url):
 def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
     htmlContent = init_url(nextUrl)
 
-    if page == 8:
-        print(htmlContent)
+    # if page == 23:
+    #     print(htmlContent)
 
     # print("正在搜索：" + str(page) + " 页")
 
@@ -84,13 +84,11 @@ def searchKeyworld(nextUrl, page, key_world, key_world_inde, ):
                 key_world_able_list[key_world_inde] -= 1;
                 break
 
-
-for key_world_str in key_world_list:
-
-    print("正在搜索关键词：" + key_world_str)
-    current_world_inde = key_world_list.index(key_world_str);
+def createNewKeywordUrl(key_word_str):
+    print("正在搜索关键词：" + key_word_str)
+    current_world_inde = key_world_list.index(key_word_str);
     # print(str(current_world_inde) + " : " + key_world_str)
-    key_world_str = key_world_str.replace(" ", "+")
+    key_world_str = key_word_str.replace(" ", "+")
     base_url = "https://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Dsporting&field-keywords=" + key_world_str
     htmlContent = init_url(base_url)
 
@@ -107,7 +105,7 @@ for key_world_str in key_world_list:
         pg2_undecode_url = pg2_undecode_url.replace("&amp;", "&")
 
     for i in range(2, 400):
-        time.sleep(2)
+        time.sleep(1)
         # if the value is 0,then mean it fond 2 place of the key world, so dont need to do next anymore
         if key_world_able_list[current_world_inde] <= 0:
             break
@@ -118,5 +116,11 @@ for key_world_str in key_world_list:
             _thread.start_new_thread(searchKeyworld, (nextUrl, i, key_world_str, current_world_inde,))
         except:
             print("Error: 无法启动线程")
+
+for key_world_str in key_world_list:
+    try:
+        _thread.start_new_thread(createNewKeywordUrl, (key_world_str,))
+    except:
+        print("Error: 无法启动线程")
 
     time.sleep(1)
