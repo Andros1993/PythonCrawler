@@ -15,7 +15,7 @@ key_world_list = [
     # "knee compression",
     # "compression knee brace",
     "knee brace",
-    "knee sleeve",
+
     "knee compression sleeve",
     "knee support",
     "knee brace",
@@ -24,6 +24,7 @@ key_world_list = [
 "knee brace for women",
 "knee brace for men",
 "knee brace for arthritis",
+"knee sleeve",
 ];
 key_world_able_list = [
     2,
