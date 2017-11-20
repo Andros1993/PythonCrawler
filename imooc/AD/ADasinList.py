@@ -77,33 +77,36 @@ def getTheAdAsin(nextUrl, page, key_world, key_world_inde, table, ):
 
     # 获取所有搜索结果
     li_list = soup.find_all('li', attrs={'id': re.compile('result_')})
+    print("li_list:" + str(len(li_list)))
     for text in li_list:
         # 获取属于广告的结果
         h5_list = text.find_all('h5', attrs={'class': re.compile('a-spacing-none a-color-tertiary s-sponsored-list-header s-sponsored-header sp-pixel-data a-text-normal')})
+        print("h5_list:" + str(len(h5_list)))
         if len(h5_list) >0 :
             asin = text.get('data-asin')
-            if asin == "B0771D5SSD" :
-                table.write(rowCount, 0, time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
-                table.write(rowCount, 1, page)
-                table.write(rowCount, 2, indexCount)
-                indexCount = indexCount + 1
-                rowCount = rowCount + 1
-                file.release_resources()
+            # if asin == "B00VXJ09R6" :
+            print("找到了" + asin)
+                # table.write(rowCount, 0, time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+                # table.write(rowCount, 1, page)
+                # table.write(rowCount, 2, indexCount)
+                # indexCount = indexCount + 1
+                # rowCount = rowCount + 1
+                # file.release_resources()
 
 if __name__ == "__main__":
 
     # 新建一个excel文件
-    file = xlwt.Workbook.
+    file = xlrd.open_workbook("test.xlsx")
     # 新建一个sheet
     table = file.sheet_by_name('Sheet1')
     # 写入数据table.write(行,列,value)
     # table.write(0, 0, 'wangpeng')
     # file.save('knee+support.xls')
 
-    table.cell()
-    table.write(0, 0, time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    # table.cell()
+    # table.write(0, 0, time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
 
-    while False:
+    while True:
         for key_world_str in key_world_list:
 
             print("正在搜索关键词：" + key_world_str)
