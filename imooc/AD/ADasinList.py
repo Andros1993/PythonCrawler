@@ -48,14 +48,15 @@ key_world_able_list = [
 
 
 def init_url(url):
-    cookie = http.cookiejar.LWPCookieJar()
-    opener = request.build_opener(request.HTTPCookieProcessor(cookie))
-    request.install_opener(opener)
+    # cookie = http.cookiejar.LWPCookieJar()
+    # opener = request.build_opener(request.HTTPCookieProcessor(cookie))
+    # request.install_opener(opener)
     # response3 = request.urlopen("https://www.amazon.com")
     req = request.Request(url)
     req.add_header("User-Agent",
-                   "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
+                   "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0")
     req.add_header("Host", "www.amazon.com")
+    req.add_header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
     req.add_header("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4")
     req.add_header("Host", "www.amazon.com")
     req.add_header("Upgrade-Insecure-Requests", "1")
@@ -69,6 +70,7 @@ def init_url(url):
 
 
 def getTheAdAsin(nextUrl, page, key_world, key_world_inde, table, ):
+    print(nextUrl)
     htmlContent = init_url(nextUrl)
 
     soup = bs(htmlContent, "html.parser")
@@ -77,26 +79,28 @@ def getTheAdAsin(nextUrl, page, key_world, key_world_inde, table, ):
 
     # 获取所有搜索结果
     li_list = soup.find_all('li', attrs={'id': re.compile('result_')})
-    print("li_list:" + str(len(li_list)))
+    print("第" + str(page) + "页" + str(len(li_list)))
     for text in li_list:
         # 获取属于广告的结果
         h5_list = text.find_all('h5', attrs={'class': re.compile('a-spacing-none a-color-tertiary s-sponsored-list-header s-sponsored-header sp-pixel-data a-text-normal')})
-        print("h5_list:" + str(len(h5_list)))
         if len(h5_list) >0 :
+            indexCount = indexCount + 1;
             asin = text.get('data-asin')
-            # if asin == "B00VXJ09R6" :
-            print("找到了" + asin)
-                # table.write(rowCount, 0, time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
-                # table.write(rowCount, 1, page)
-                # table.write(rowCount, 2, indexCount)
-                # indexCount = indexCount + 1
-                # rowCount = rowCount + 1
-                # file.release_resources()
+            # if asin == "B073R7TK7N" :
+                # print(str(page) + " 页 " + " 第 " + str(indexCount) + "个")
+            print(asin)
+            # table.write(rowCount, 0, time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+            # table.write(rowCount, 1, page)
+            # table.write(rowCount, 2, indexCount)
+            # indexCount = indexCount + 1
+            # rowCount = rowCount + 1
+            # file.release_resources()
+    soup.reset()
 
 if __name__ == "__main__":
 
     # 新建一个excel文件
-    file = xlrd.open_workbook("test.xlsx")
+    file = xlrd.open_workbook("us_knee_brace_ad.xlsx")
     # 新建一个sheet
     table = file.sheet_by_name('Sheet1')
     # 写入数据table.write(行,列,value)
@@ -116,7 +120,8 @@ if __name__ == "__main__":
             base_url = "https://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=" + key_world_str
             htmlContent = init_url(base_url)
 
-            _thread.start_new_thread(getTheAdAsin, (base_url, 1, key_world_str, current_world_inde, table))
+            # _thread.start_new_thread(getTheAdAsin, (base_url, 1, key_world_str, current_world_inde, table))
+            getTheAdAsin(base_url, 1, key_world_str, current_world_inde, table)
 
             index_start_string = htmlContent.find("/s/ref=sr_pg_2/")
             index_start = int(index_start_string)
@@ -135,11 +140,17 @@ if __name__ == "__main__":
                     break
                 nextUrl = "https://www.amazon.com" + pg2_undecode_url.replace("/s/ref=sr_pg_2", "/s/ref=sr_pg_" + str(i))
                 nextUrl = nextUrl.replace("page=2", "page=" + str(i))
+
+                index_begin_string = nextUrl.find("&qid=")
+                index_begin = int(index_begin_string)
+
+                nextUrl = nextUrl.replace(nextUrl[index_begin : len(nextUrl)], "")
                 # print(nextUrl)
-                try:
-                    _thread.start_new_thread(getTheAdAsin, (nextUrl, i, key_world_str, current_world_inde, table,))
-                except:
-                    print("Error: 无法启动线程")
+                # try:
+                #     _thread.start_new_thread(getTheAdAsin, (nextUrl, i, key_world_str, current_world_inde, table,))
+                # except:
+                #     print("Error: 无法启动线程")
+                getTheAdAsin(nextUrl, i, key_world_str, current_world_inde, table)
 
             time.sleep(random.randint(0,4))
         time.sleep(360 + random.randint(0,9))
