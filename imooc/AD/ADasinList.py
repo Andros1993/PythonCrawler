@@ -161,10 +161,10 @@ if __name__ == "__main__":
                 nextUrl = "https://www.amazon.com" + pg2_undecode_url.replace("/s/ref=sr_pg_2", "/s/ref=sr_pg_" + str(i))
                 nextUrl = nextUrl.replace("page=2", "page=" + str(i))
 
-                index_begin_string = nextUrl.find("&qid=")
-                index_begin = int(index_begin_string)
-
-                nextUrl = nextUrl.replace(nextUrl[index_begin : len(nextUrl)], "")
+                # index_begin_string = nextUrl.find("&qid=")
+                # index_begin = int(index_begin_string)
+                #
+                # nextUrl = nextUrl.replace(nextUrl[index_begin : len(nextUrl)], "")
                 # print(nextUrl)
                 # try:
                 #     _thread.start_new_thread(getTheAdAsin, (nextUrl, i, key_world_str, current_world_inde, table,))
