@@ -8,6 +8,9 @@ import _thread
 import xlwt
 from bs4 import BeautifulSoup as bs
 import re
+import xlrd;
+#import xlutils;
+from xlutils.copy import copy;
 
 
 def init_url(url):
@@ -42,12 +45,18 @@ def init_url(url):
 # # 新建一个sheet
 # table = file.add_sheet('info', cell_overwrite_ok=True)
 #
-# rowCount = 0;
+rowCount = 0;
 
 def searchEmail(infoUrl):
     rvInfoContent = init_url("https://www.amazon.com" + infoUrl)
     if rvInfoContent.find("\"publicEmail\":null") == -1:
         print("https://www.amazon.com" + infoUrl)
+        global rowCount # 定义外部变量
+        newWs.write(rowCount, 0, "https://www.amazon.com" + infoUrl);
+        newWs.write(rowCount, 1, "value2");
+        newWs.write(rowCount, 2, "value3");
+        newWb.save('reviewerInfo.xls');
+        rowCount = rowCount + 1
 
 def openInfo(reviewerUrlList):
     # Analysis reviewerInfo
@@ -56,6 +65,12 @@ def openInfo(reviewerUrlList):
 
             # table.write(rowCount, 0, "https://www.amazon.com" + infoUrl)
             # rowCount = rowCount + 1
+
+
+oldWb = xlrd.open_workbook('reviewerInfo.xls', formatting_info=True);
+newWb = copy(oldWb);
+newWs = newWb.get_sheet(0);
+
 
 for i in range(239, 1000):
     # get reviewer url
