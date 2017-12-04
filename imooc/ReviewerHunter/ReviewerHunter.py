@@ -53,8 +53,12 @@ def searchEmail(infoUrl):
         print("https://www.amazon.com" + infoUrl)
         global rowCount # 定义外部变量
         newWs.write(rowCount, 0, "https://www.amazon.com" + infoUrl);
+
+        soup = bs(rvInfoContent, "html.parser")
+
+        li_list = soup.find_all('span', attrs={'class': re.compile('result_')})
         newWs.write(rowCount, 1, "value2");
-        newWs.write(rowCount, 2, "value3");
+        newWs.write(rowCount, 2, "value3");#<span class="a-size-extra-large">Steve Burns</span>
         newWb.save('reviewerInfo.xls');
         rowCount = rowCount + 1
 
