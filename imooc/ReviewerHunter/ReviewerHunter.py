@@ -52,13 +52,16 @@ def searchEmail(infoUrl):
     if rvInfoContent.find("\"publicEmail\":null") == -1:
         print("https://www.amazon.com" + infoUrl)
         global rowCount # 定义外部变量
-        newWs.write(rowCount, 0, "https://www.amazon.com" + infoUrl);
 
-        soup = bs(rvInfoContent, "html.parser")
-
-        li_list = soup.find_all('span', attrs={'class': re.compile('result_')})
-        newWs.write(rowCount, 1, "value2");
-        newWs.write(rowCount, 2, "value3");#<span class="a-size-extra-large">Steve Burns</span>
+        # soup = bs(rvInfoContent, "html.parser")
+        #
+        # li_list = soup.find_all('span', attrs={'class': re.compile('a-size-extra-large')})
+        nameList = re.findall(r'"nameHeaderData":{"name":".+","profileExists"', rvInfoContent)
+        newWs.write(rowCount, 0, nameList[0][26:len(nameList[0]) - 17])
+        emailList = re.findall(r'"publicEmail":".+","personalDescription":', rvInfoContent)
+        # "publicEmail": "awallens@twcny.rr.com"
+        newWs.write(rowCount, 1, emailList[0][15:len(emailList[0]) - 24])
+        newWs.write(rowCount, 2, "https://www.amazon.com" + infoUrl);
         newWb.save('reviewerInfo.xls');
         rowCount = rowCount + 1
 
@@ -71,7 +74,7 @@ def openInfo(reviewerUrlList):
             # rowCount = rowCount + 1
 
 
-oldWb = xlrd.open_workbook('reviewerInfo.xls', formatting_info=True);
+oldWb = xlrd.open_workbook('reviewerInfo.xls');
 newWb = copy(oldWb);
 newWs = newWb.get_sheet(0);
 
