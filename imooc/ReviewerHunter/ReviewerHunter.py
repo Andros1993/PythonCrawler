@@ -50,7 +50,7 @@ rowCount = 0;
 def searchEmail(infoUrl):
     rvInfoContent = init_url("https://www.amazon.com" + infoUrl)
     if rvInfoContent.find("\"publicEmail\":null") == -1:
-        print("https://www.amazon.com" + infoUrl)
+        # print("https://www.amazon.com" + infoUrl)
         global rowCount # 定义外部变量
 
         # soup = bs(rvInfoContent, "html.parser")
@@ -58,10 +58,16 @@ def searchEmail(infoUrl):
         # li_list = soup.find_all('span', attrs={'class': re.compile('a-size-extra-large')})
         nameList = re.findall(r'"nameHeaderData":{"name":".+","profileExists"', rvInfoContent)
         newWs.write(rowCount, 0, nameList[0][26:len(nameList[0]) - 17])
-        emailList = re.findall(r'"publicEmail":".+","personalDescription":', rvInfoContent)
         # "publicEmail": "awallens@twcny.rr.com"
+        emailList = re.findall(r'"publicEmail":".+","personalDescription":', rvInfoContent)
         newWs.write(rowCount, 1, emailList[0][15:len(emailList[0]) - 24])
-        newWs.write(rowCount, 2, "https://www.amazon.com" + infoUrl);
+        # "facebook", "url": "http://Facebook.com/awakenednutrition"
+        # if rvInfoContent.find("\"facebook\",\"url\":null") == -1:
+        #     FBList = re.findall(r'"facebook","url":"http://Facebook', rvInfoContent)
+        #     # FBline = FBList[0][37:len(FBList[0])]
+        #     # newWs.write(rowCount, 2, FBline)
+        #     print(FBList)
+        newWs.write(rowCount, 3, "https://www.amazon.com" + infoUrl);
         newWb.save('reviewerInfo.xls');
         rowCount = rowCount + 1
 
@@ -79,7 +85,7 @@ newWb = copy(oldWb);
 newWs = newWb.get_sheet(0);
 
 
-for i in range(239, 1000):
+for i in range(514, 1000):
     # get reviewer url
     time.sleep(5 + random.randint(2, 4))
     rvListContent = init_url("https://www.amazon.com/hz/leaderboard/top-reviewers/ref=cm_cr_tr_link_" + str(i) + "?page=" + str(i));
