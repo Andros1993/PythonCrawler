@@ -62,11 +62,13 @@ def searchEmail(infoUrl):
         emailList = re.findall(r'"publicEmail":".+","personalDescription":', rvInfoContent)
         newWs.write(rowCount, 1, emailList[0][15:len(emailList[0]) - 24])
         # "facebook", "url": "http://Facebook.com/awakenednutrition"
-        # if rvInfoContent.find("\"facebook\",\"url\":null") == -1:
-        #     FBList = re.findall(r'"facebook","url":"http://Facebook', rvInfoContent)
-        #     # FBline = FBList[0][37:len(FBList[0])]
-        #     # newWs.write(rowCount, 2, FBline)
-        #     print(FBList)
+
+        if rvInfoContent.find("\"facebook\",\"url\":null") == -1:
+            pattern = re.compile(r'"facebook","url":"https://www\.facebook\.com/\w+"')
+            FBList = pattern.match(rvInfoContent)
+            # FBline = FBList[0][37:len(FBList[0])]
+            # newWs.write(rowCount, 2, FBline)
+            print(infoUrl + "   " + str(FBList))
         newWs.write(rowCount, 3, "https://www.amazon.com" + infoUrl);
         newWb.save('reviewerInfo.xls');
         rowCount = rowCount + 1
