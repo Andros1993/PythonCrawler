@@ -173,4 +173,4 @@ if __name__ == "__main__":
                 getTheAdAsin(nextUrl, i, key_world_str, current_world_inde, table)
 
             time.sleep(random.randint(0,4))
-        time.sleep(360 + random.randint(0,9))
+        time.sleep(36 + random.randint(0,9))
