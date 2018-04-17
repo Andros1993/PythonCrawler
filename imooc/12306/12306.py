@@ -13,8 +13,8 @@ class huoche(object):
     driver_name = ''
     executable_path = ''
     # 用户名，密码
-    username = u"xxx@qq.com"
-    passwd = u"xxxx"
+    username = u"1756238821@qq.com"
+    passwd = u"xwhwan100531337"
     # cookies值得自己去找, 下面两个分别是上海, 太原南
     starts = u"%u4E0A%u6D77%2CSHH"
     ends = u"%u592A%u539F%2CTYV"
