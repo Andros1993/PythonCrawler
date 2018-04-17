@@ -80,6 +80,7 @@ def searchEmail(infoUrl):
                 youtuAddress = re.findall(r'{"type": "youtube", "url": "https://www.youtube.com/.+","iconUrl"', rvInfoContent)
                 print("                                                                                    " + youtuAddress[0])
 
+
             newWs.write(rowCount, 3, "https://www.amazon.com" + infoUrl);
             print("                                                                                                                           https://www.amazon.com" + infoUrl)
             newWb.save('reviewerInfo.xls');
