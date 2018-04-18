@@ -49,45 +49,45 @@ rowCount = 0;
 
 def searchEmail(infoUrl):
     rvInfoContent = init_url("https://www.amazon.com" + infoUrl)
-    if rvInfoContent.find("\"raw\":null") == -1:
-        emailList = re.findall(r'"normalized":".+,"badges"', rvInfoContent)
-        if emailList[0].find('@') != -1:
-            # print("https://www.amazon.com" + infoUrl)
-            global rowCount # 定义外部变量
+    # if rvInfoContent.find("\"raw\":null") == -1:
+    emailList = re.findall(r'"normalized":".+,"badges"', rvInfoContent)
+    if emailList[0].find('@') != -1:
+        # print("https://www.amazon.com" + infoUrl)
+        global rowCount # 定义外部变量
 
-            # soup = bs(rvInfoContent, "html.parser")
-            #
-            # li_list = soup.find_all('span', attrs={'class': re.compile('a-size-extra-large')})
-            nameList = re.findall(r'"nameHeaderData":{"name":".+","profileExists"', rvInfoContent)
-            newWs.write(rowCount, 0, nameList[0][26:len(nameList[0]) - 17])
-            print(nameList[0][26:len(nameList[0]) - 17])
+        # soup = bs(rvInfoContent, "html.parser")
+        #
+        # li_list = soup.find_all('span', attrs={'class': re.compile('a-size-extra-large')})
+        nameList = re.findall(r'"nameHeaderData":{"name":".+","profileExists"', rvInfoContent)
+        newWs.write(rowCount, 0, nameList[0][26:len(nameList[0]) - 17])
+        print(nameList[0][26:len(nameList[0]) - 17])
 
-            # ,"normalized":"http://hawkeyeeod@gmail.com"},"badges":{
-            # emailList = re.findall(r'"normalized":".+,"badges"', rvInfoContent)
-            newWs.write(rowCount, 1, emailList[0][21:len(emailList[0]) - 11])
-            print("                           " + emailList[0][21:len(emailList[0]) - 11])
+        # ,"normalized":"http://hawkeyeeod@gmail.com"},"badges":{
+        # emailList = re.findall(r'"normalized":".+,"badges"', rvInfoContent)
+        newWs.write(rowCount, 1, emailList[0][21:len(emailList[0]) - 11])
+        print("                           " + emailList[0][21:len(emailList[0]) - 11])
 
-            # "facebook", "url": "http://Facebook.com/awakenednutrition"
-            if rvInfoContent.find("\"facebook\",\"url\":null") == -1:
-                facebookAddress = re.findall(r'"facebook","url":"https://www\.facebook\.com/\w+"', rvInfoContent)
-                # FBList = pattern.match(rvInfoContent)
-                # FBline = FBList[0][37:len(FBList[0])]
-                # newWs.write(rowCount, 2, FBline)
-                print("                                                       " + facebookAddress[0])
+        # "facebook", "url": "http://Facebook.com/awakenednutrition"
+        if rvInfoContent.find("\"facebook\",\"url\":null") == -1:
+            facebookAddress = re.findall(r'"facebook","url":"https://www\.facebook\.com/\w+"', rvInfoContent)
+            # FBList = pattern.match(rvInfoContent)
+            # FBline = FBList[0][37:len(FBList[0])]
+            newWs.write(rowCount, 2, facebookAddress[0][18:len(facebookAddress[0]) - 1])
+            print("                                                       " + facebookAddress[0][18:len(facebookAddress[0]) - 1])
 
-            # {"type": "youtube", "url": "https://www.youtube.com/user/Tw3akst3r?\u0026amp;ab_channel=Tw3akst3r","iconUrl"
-            if rvInfoContent.find("\"type\":\"youtube\",\"url\":null") == -1:
-                youtuAddress = re.findall(r'{"type": "youtube", "url": "https://www.youtube.com/.+","iconUrl"', rvInfoContent)
-                print("                                                                                    " + youtuAddress[0])
+        # {"type": "youtube", "url": "https://www.youtube.com/user/Tw3akst3r?\u0026amp;ab_channel=Tw3akst3r","iconUrl"
+        # if rvInfoContent.find("\"type\":\"youtube\",\"url\":null") == -1:
+        #     youtuAddress = re.findall(r'{"type": "youtube", "url": "https://www.youtube.com/.+","iconUrl"', rvInfoContent)
+        #     print("                                                                                    " + youtuAddress[0])
 
 
-            newWs.write(rowCount, 3, "https://www.amazon.com" + infoUrl);
-            print("                                                                                                                           https://www.amazon.com" + infoUrl)
-            newWb.save('reviewerInfo.xls');
-            rowCount = rowCount + 1
-            return
-    else :
+        newWs.write(rowCount, 3, "https://www.amazon.com" + infoUrl);
+        print("                                                                                                                           https://www.amazon.com" + infoUrl)
+        newWb.save('reviewerInfo.xls');
+        rowCount = rowCount + 1
         return
+    # else :
+    #     return
     return
 
 def openInfo(reviewerUrlList):
@@ -104,9 +104,9 @@ newWb = copy(oldWb);
 newWs = newWb.get_sheet(0);
 
 
-for i in range(85, 100):
+for i in range(2, 1000):
     # get reviewer url
-    time.sleep(5 + random.randint(2, 4))
+    time.sleep(3 + random.randint(2, 4))
     rvListContent = init_url("https://www.amazon.com/hz/leaderboard/top-reviewers/ref=cm_cr_tr_link_" + str(i) + "?page=" + str(i));
     reviewerUrlList = re.findall(r'/gp/profile/amzn1.account.\w+/ref=cm_cr_tr_tbl_.{1,7}_name', rvListContent)
     # print(reviewerUrlList)
