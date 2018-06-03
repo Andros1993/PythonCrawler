@@ -22,18 +22,7 @@ def init_url(url):
     req.add_header("Upgrade-Insecure-Requests", "1")
     req.add_header("Connection", "keep-alive")
     req.add_header("Cache-Control", "max-age=0")
-    req.add_header("Cookie", "x-main=Rce3DZGa7QL8Xf2cUrEd5VrO1jVvYrkI97c91jIzIQ7mv66O8L8U8EaExQKA96Cs; "
-                             "at-main=Atza|IwEBIIEzwtjMJsqjVca9O1rYZ2w0JFuce96rnQ9NQ0VLnkbUQiTJ5wO5_Kd5_fi5Ex8z"
-                             "8cNbpsv45AP4c5NBs8bgIJbjHftEh2_0F7QtY4M30PGxnvJj5skIB7dF9RXzn8cXS1M_Mligzhrnw6pCjC"
-                             "Uu1We16AiTZMIeOWVCvga6GuhZud5Pt0VBa84HNTteaqH8ieiW0vFS_tjJGOuy5SBe5WbXH7hA0ojdfvOyzt"
-                             "4hmj_Aw0qHqyz_CD7HtlRIwzv1j-uXq4pvppY4tQunROpg41Um26w0g2cmnKCBwSL01IQSXa2jSmQ4DMJ0zU9Wg2"
-                             "HeZYv3WA21772TahWwHU9cvM93mGePZpqkfznR5sWS_80MQkQJ4A4xgj5hq9Tz2zDKrOpOZoeU9lf0-WgNTrHYJTg0; "
-                             "lc-main=en_US; x-wl-uid=1Wxr9a8HKeo9AbKEncf0d5UKEmW/rKuXoB9uQl/9GDt6CWJCj+OZNBeK5mpqnW4USK1s"
-                             "PaVO7OggZat2LshsbTVBT5YZRiRa2a6EoeHefDj7ZTzpYTjcORvvVvTwvRrwh+LkyBxUsqDk=; skin=noskin; session-token"
-                             "=\"f+uPDH/1jpYoaFhxC6LIrJoH+9Ua1EDfXbT0uf0WPePXJyRau3I0/p/KgpfEbGU+e5QKp3ucx9A6LMuFZBpa9Av77+bGpF/dTk"
-                             "SmIP5JxWABrCWNcl4oTT1qHdbF9jzL5hosYkY42pRqKnxgYvAuiACx/V0QKPPuT3WfM8KuckfDlxqS6+BwuSwsnmPQi2i677BVgGuDu"
-                             "IAFWR2sc5e7K2VB7R1zftr1UlxDCWKtnLfRjx51BKlyorv3ZTjhqrc/69ZmwTE29Os5aIsm/qB32g==\"; ubid-main=132-9310496-"
-                             "5343729; session-id-time=2082787201l; session-id=140-1431192-8975455; csm-hit=D5YYND20TR0GYJ9TGD1M+b-H8BWB7GQ57YG1YSXJHJV|1512219757447")
+    req.add_header("Cookie", "lc-main=en_US; x-wl-uid=1Wxr9a8HKeo9AbKEncf0d5UKEmW/rKuXoB9uQl/9GDt6CWJCj+OZNBeK5mpqnW4USK1sPaVO7OggZat2LshsbTVBT5YZRiRa2a6EoeHefDj7ZTzpYTjcORvvVvTwvRrwh+LkyBxUsqDk=; s_vnum=1947139795319%26vn%3D1; s_nr=1515139817164-New; s_dslv=1515139817166; x-main=o0xoT065JxdUujnf9TXG0gpyziZgeQkzoRYUODrXpTvX23hPfCACKAsMvUxeOlSD; at-main=Atza|IwEBIG5hGWG3vLUnDW6bCOMA4WgKRJHYM_az64kMNL8IucHjubzqqSfg9fTLQvsYZPtP9sCuI1JR5EmyUtcr5vEq0usmWUpHayYQjOXlTRwbPNnulN05tk-In6PYv27ksrBV1pVc2faj2c8NJI4PSJaSF_Iq7L0f7Si0bTM8h1wCi7YD4lLdZX895l1LgKbTGo6K0m11ZRkjOyJc9EN-piKE6gURRFNNFMQJkivsZJxOSK0Kfm-0ZWLnK97Oj3Nof-TaJFaUmVupI7Q0ixSRcU71nv_Fc5N7B1lzlmD9msl2IepNWF0NS7TEMCh3SQeXnx5KNdIxszEnGZQv-grIf0J83ahD_M5PCeyaYPmJnnn8CPpqCrc2BH47aC_hXAagduMMJPnkgLxqo_UL0xkzdgxyrFCR; sst-main=Sst1|PQHUHSLljqi8C_CP5coNs318CHHIVumHu_1Tw8pSlOmplr6IjhpeRNnjFstRSo4tgvEM288tHNK52Lth3KFgJbrSWXvjAvIR97dpaxC54gzXycXpVAY93yWVtFoy8GIRF4YCalazjN6gc-2028OQLhtZl6KZ2uB7DKhDjzr1kEGt4O-DOFD1T4RtGAfR2Y8qArwg1Ju-9qrOUdz7L-3ZuUC4aT2QvFTiLsUmPPbkhCD6WM8dhs9izp4aeBtwHj_GxmxC6j14vUKR8AR3VKMuaB79KA; spblockdate=1515403611991; ubid-main=132-9310496-5343729; session-id-time=2082787201l; session-id=140-1431192-8975455; skin=noskin; session-token=\"Duw2ZoqJeMr8BME5ADQzNm2fJxBuGwQr9AmNtzRMRJ7qRoq9wL7kDBj+IaFNXnl0P+HvE4aWij3/a1KJlG+vqZTUfQs626QnJClzHZwza3LlvSiokBQ4HIlZhkksewlZxGWYGo6estHwY/yuvrZhNyVMSwEJpPU7ZmB93g1hv1FAHTgIG5DM5oXfX/SV/bkeyKo5cSq9WPOmtuGDwSTirEBJKBj2RsVCnK7gZeNZB2n9ZmqutmAk7M6oDrB/VWK7B9aSzorVHJNtzOGF7fL5Bg==\"; csm-hit=tb:7E52FW8S3R5BARNKGYHA+s-QZWPN1GRH4HD4HGBVSSA|1524580119977&adb:adblk_no")
 
 
     resp = request.urlopen(req)
@@ -52,8 +41,9 @@ def searchEmail(infoUrl):
     soup = bs(rvInfoContent, "html.parser")
 
     a_list = soup.find_all('a', attrs={'class': re.compile('social-link-image')})
-    for link in a_list:
-        print(link)
+    if len(a_list) > 0:
+        for link in a_list:
+            print(link)
 
     return
 
@@ -71,12 +61,18 @@ newWb = copy(oldWb);
 newWs = newWb.get_sheet(0);
 
 
-for i in range(2, 1000):
-    # get reviewer url
-    time.sleep(3 + random.randint(2, 4))
-    rvListContent = init_url("https://www.amazon.com/hz/leaderboard/top-reviewers/ref=cm_cr_tr_link_" + str(i) + "?page=" + str(i));
-    reviewerUrlList = re.findall(r'/gp/profile/amzn1.account.\w+/ref=cm_cr_tr_tbl_.{1,7}_name', rvListContent)
-    # print(reviewerUrlList)
-    print("第 " + str(i) + " 页")
-
-    threading.Thread(target=openInfo, args=(reviewerUrlList,)).start()
+for i in range(24, 1000):
+    # # get reviewer url
+    # time.sleep(3 + random.randint(2, 4))
+    # rvListContent = init_url("https://www.amazon.com/hz/leaderboard/top-reviewers/ref=cm_cr_tr_link_" + str(i) + "?page=" + str(i));
+    # reviewerUrlList = re.findall(r'/gp/profile/amzn1.account.\w+/ref=cm_cr_tr_tbl_.{1,7}_name', rvListContent)
+    # # print(reviewerUrlList)
+    # print("第 " + str(i) + " 页")
+    #
+    # threading.Thread(target=openInfo, args=(reviewerUrlList,)).start()
+    rvInfoContent = init_url("https://www.amazon.com/gp/profile/amzn1.account.AHQCAHFHCSWSUAXSWRSV44S233MA/ref=cm_cr_tr_tbl_235_name")
+    soup = bs(rvInfoContent, "html.parser")
+    a_list = soup.find_all('a', attrs={"rel": "noopener noreferrer"})
+    if len(a_list) > 0:
+        for link in a_list:
+            print(link)
