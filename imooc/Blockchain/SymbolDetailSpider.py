@@ -97,9 +97,23 @@ def findSymbol(content):
 
     detailContent = init_url("https://www.feixiaohao.com/currencies/" + tr_list[0]['id'] + "/")
     detail_soup = bs(detailContent, "html.parser")
-    li_list = detail_soup.find('body').find_all('div', attrs={'class': re.compile('secondPark')})[0].find('ul').find_all('li')
-    print(li_list[0].find('span', attrs={'class': re.compile('value')}).contents[0]) #英文名字
-    print(li_list[4].find('span', attrs={'class': re.compile('value')}).find('a')['href'])  #白皮书地址
+    fli_list = detail_soup.find('body').find_all('div', attrs={'class': re.compile('firstPart')})[0].find_all('div', attrs={'class': re.compile('cell')})[2].find_all('div', attrs={'class': re.compile('value')})
+    sli_list = detail_soup.find('body').find_all('div', attrs={'class': re.compile('secondPark')})[0].find('ul').find_all('li')
+    print(sli_list[0].find('span', attrs={'class': re.compile('value')}).contents[0]) #英文名字
+    print(sli_list[4].find('span', attrs={'class': re.compile('value')}).find('a')['href'])  #白皮书地址
+
+    print(fli_list[0].contents[0])
+    print(fli_list[1].contents[0])
+
+    testdata = detail_soup.find('div',attrs={'class': re.compile('ct-chart ct-minor-second ct-chart2')}).find('div').find('span').contents[0]
+    print(testdata)
+
+    introduction_url = detail_soup.find('div',attrs={'class': re.compile('des')}).find('a')['href']
+    introductionContent = init_url("https://www.feixiaohao.com" + introduction_url)
+    introductionSoup = bs(introductionContent, "html.parser")
+    introduction1 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[1].contents[0]
+    introduction2 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[1].find('br').contents[0]
+    print(introduction1 + introduction2)
 
     # for tr_item in tr_list :
     #     detailContent = init_url("https://www.feixiaohao.com/currencies/" + tr_item['id'] + "/")
