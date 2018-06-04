@@ -111,8 +111,8 @@ def findSymbol(content):
     introduction_url = detail_soup.find('div',attrs={'class': re.compile('des')}).find('a')['href']
     introductionContent = init_url("https://www.feixiaohao.com" + introduction_url)
     introductionSoup = bs(introductionContent, "html.parser")
-    introduction1 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[1].contents[0]
-    introduction2 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[1].find('br').contents[0]
+    introduction1 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[0].contents[0]
+    introduction2 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[1].contents[0]#.find('br').contents[0]
     print(introduction1 + introduction2)
 
     # for tr_item in tr_list :
