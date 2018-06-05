@@ -156,7 +156,7 @@ if firstContent != "" :
 
 for i in range(2, 6):
     time.sleep(10 + random.randint(0,9))
-    nextPageContent = init_url("https://www.feixiaohao.com/list_" + i + ".html")
+    nextPageContent = init_url("https://www.feixiaohao.com/list_" + str(i) + ".html")
     if nextPageContent != "":
         findSymbol(nextPageContent)
 
