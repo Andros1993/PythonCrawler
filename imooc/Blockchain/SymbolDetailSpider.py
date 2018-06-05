@@ -26,10 +26,12 @@ def init_url(url):
     # req.add_header("Accept-Encoding", "gzip, deflate, br")
     req.add_header("Cookie", "usid=bf81e7efe5f65396; UM_distinctid=163cb1691911be-0db5ca4e4aac54-3b60490d-1fa400-163cb16919212b; CNZZDATA1263003344=408349772-1528120479-https%253A%252F%252Fwww.baidu.com%252F%7C1528120479; Hm_lvt_192e611c7ffa4b2f8a5047e5cf45403f=1528120645; Hm_lpvt_192e611c7ffa4b2f8a5047e5cf45403f=1528121371")
 
-
-    resp = request.urlopen(req)
-    htmlContentBuf = resp.read().decode('utf-8')
-    return htmlContentBuf;
+    try :
+        resp = request.urlopen(req)
+        htmlContentBuf = resp.read().decode('utf-8')
+        return htmlContentBuf;
+    except BaseException:
+        return ""
 
 # # 新建一个excel文件
 # file = xlwt.Workbook()
@@ -90,30 +92,53 @@ rowCount = 0;
             # rowCount = rowCount + 1
 
 def findSymbol(content):
+    global rowCount  # 定义外部变量
     soup = bs(content, "html.parser")
     tbody_list = soup.find('tbody')
     tr_list = tbody_list.find_all('tr')
     # print(str(len(tr_list)))
 
-    detailContent = init_url("https://www.feixiaohao.com/currencies/" + tr_list[0]['id'] + "/")
-    detail_soup = bs(detailContent, "html.parser")
-    fli_list = detail_soup.find('body').find_all('div', attrs={'class': re.compile('firstPart')})[0].find_all('div', attrs={'class': re.compile('cell')})[2].find_all('div', attrs={'class': re.compile('value')})
-    sli_list = detail_soup.find('body').find_all('div', attrs={'class': re.compile('secondPark')})[0].find('ul').find_all('li')
-    print(sli_list[0].find('span', attrs={'class': re.compile('value')}).contents[0]) #英文名字
-    print(sli_list[4].find('span', attrs={'class': re.compile('value')}).find('a')['href'])  #白皮书地址
+    for tr_item in tr_list:
+        time.sleep(10 + random.randint(0,10))
+        detailContent = init_url("https://www.feixiaohao.com/currencies/" + tr_item['id'] + "/")
+        if detailContent == "" :
+            return
+        detail_soup = bs(detailContent, "html.parser")
+        fli_list = detail_soup.find('body').find_all('div', attrs={'class': re.compile('firstPart')})[0].find_all('div', attrs={'class': re.compile('cell')})[2].find_all('div', attrs={'class': re.compile('value')})
+        sli_list = detail_soup.find('body').find_all('div', attrs={'class': re.compile('secondPark')})[0].find('ul').find_all('li')
+        newWs.write(rowCount, 0, rowCount)
+        # print(sli_list[0].find('span', attrs={'class': re.compile('value')}).contents[0]) #英文名字
+        newWs.write(rowCount, 1, sli_list[0].find('span', attrs={'class': re.compile('value')}).contents[0])
+        # print(sli_list[4].find('span', attrs={'class': re.compile('value')}).find('a')['href'])  #白皮书地址
+        if (sli_list[4].find('span', attrs={'class': re.compile('value')}).find('a') != None) :
+            newWs.write(rowCount, 2, sli_list[4].find('span', attrs={'class': re.compile('value')}).find('a')['href'])
+        else :
+            newWs.write(rowCount, 2, "-")
 
-    print(fli_list[0].contents[0])
-    print(fli_list[1].contents[0])
 
-    testdata = detail_soup.find('div',attrs={'class': re.compile('ct-chart ct-minor-second ct-chart2')}).find('div').find('span').contents[0]
-    print(testdata)
+        # print(fli_list[0].contents[0])  #流通量
+        newWs.write(rowCount, 3, fli_list[0].contents[0])
+        # print(fli_list[1].contents[0])  #总发行量
+        newWs.write(rowCount, 4, fli_list[1].contents[0])
 
-    introduction_url = detail_soup.find('div',attrs={'class': re.compile('des')}).find('a')['href']
-    introductionContent = init_url("https://www.feixiaohao.com" + introduction_url)
-    introductionSoup = bs(introductionContent, "html.parser")
-    introduction1 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[0].contents[0]
-    introduction2 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[1].contents[0]#.find('br').contents[0]
-    print(introduction1 + introduction2)
+
+        testdata = detail_soup.find('div',attrs={'class': re.compile('ct-chart ct-minor-second ct-chart2')}).find('div').find('span').contents[0]
+        # print(testdata) #流通率
+        newWs.write(rowCount, 5, testdata)
+
+
+        introduction_url = detail_soup.find('div',attrs={'class': re.compile('des')}).find('a')['href']
+        introductionContent = init_url("https://www.feixiaohao.com" + introduction_url)
+        if introductionContent == "" :
+            return
+        introductionSoup = bs(introductionContent, "html.parser")
+        introduction1 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[0].contents[0]
+        # introduction2 = introductionSoup.find('div',attrs={'class': re.compile('artBox')}).find_all('p')[1].contents[0]#.find('br').contents[0]
+        print(introduction1)   #简介
+        newWs.write(rowCount, 6, str(introduction1))
+
+        newWb.save('SymbolData.xls');
+        rowCount = rowCount + 1
 
     # for tr_item in tr_list :
     #     detailContent = init_url("https://www.feixiaohao.com/currencies/" + tr_item['id'] + "/")
@@ -121,12 +146,20 @@ def findSymbol(content):
     #     print(tr_item['id'])
 
 
-# oldWb = xlrd.open_workbook('reviewerInfo.xls');
-# newWb = copy(oldWb);
-# newWs = newWb.get_sheet(0);
+oldWb = xlrd.open_workbook('SymbolData.xls');
+newWb = copy(oldWb);
+newWs = newWb.get_sheet(0);
 
 firstContent = init_url("https://www.feixiaohao.com")
-findSymbol(firstContent)
+if firstContent != "" :
+    findSymbol(firstContent)
+
+for i in range(2, 6):
+    time.sleep(10 + random.randint(0,9))
+    nextPageContent = init_url("https://www.feixiaohao.com/list_" + i + ".html")
+    if nextPageContent != "":
+        findSymbol(nextPageContent)
+
 
 # for i in range(2, 5):
 #     # get reviewer url
